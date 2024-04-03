@@ -4,6 +4,9 @@ import BorrowersPage from "./pages/Borrowers";
 import LoansPage from "./pages/Loans";
 import { Container } from "react-bootstrap";
 import "./App.css";
+import "./styles/font.css"
+import "./styles/index.css";
+import "./styles/tailwind.css";
 
 import { Notification } from "./components/utils/Notifications";
 import LendersPage from "./pages/Lender";
