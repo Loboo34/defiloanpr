@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Button, Modal, Form, FloatingLabel } from "react-bootstrap";
 
-const AddBorrower = ({ save }) => {
+const AddLender = ({ save }) => {
   const [address, setAddress] = useState("");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -18,13 +18,13 @@ const AddBorrower = ({ save }) => {
     <>
       <div className="d-flex flex-column align-items-center mb-4 w-50">
         <h2>
-          <Modal.Title>Create Borrower Profile</Modal.Title>
+          <Modal.Title>Create Lender Profile</Modal.Title>
         </h2>
         <Form className="w-75 p-3">
           <Modal.Body className="w-100">
             <FloatingLabel
               controlId="inputName"
-              label="Borrower name"
+              label="Lender name"
               className="mb-3"
             >
               <Form.Control
@@ -32,7 +32,7 @@ const AddBorrower = ({ save }) => {
                 onChange={(e) => {
                   setName(e.target.value);
                 }}
-                placeholder="Enter name of borrower"
+                placeholder="Enter name of lender"
               />
             </FloatingLabel>
             <FloatingLabel
@@ -132,7 +132,7 @@ const AddBorrower = ({ save }) => {
               });
             }}
           >
-            Save borrower
+            Save lender
           </Button>
         </Modal.Footer>
       </div>
@@ -140,8 +140,8 @@ const AddBorrower = ({ save }) => {
   );
 };
 
-AddBorrower.propTypes = {
+AddLender.propTypes = {
   save: PropTypes.func.isRequired,
 };
 
-export default AddBorrower;
+export default AddLender;

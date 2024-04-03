@@ -212,6 +212,7 @@ const lendersStorage = StableBTreeMap(1, text, Lender);
 const requestsStorage = StableBTreeMap(2, text, Request);
 const borrowersStorage = StableBTreeMap(3, text, Borrower);
 const pendingPayments = StableBTreeMap(4, nat64, ReservePayment);
+const pendingRepayments = StableBTreeMap(9, nat64, ReserveRePayment);
 const collateralStorage = StableBTreeMap(5, text, Collateral);
 const repaymentStorage = StableBTreeMap(6, text, Repayment);
 const persistedPayments = StableBTreeMap(7, Principal, ReservePayment);
@@ -650,12 +651,6 @@ export default Canister({
         status: "completed",
         paid_at_block: Some(block),
       };
-      const loanOpt = loansStorage.get(loanId);
-      if ("None" in loanOpt) {
-        throw Error(`Book with id=${loanId} not found`);
-      }
-      const loan = loanOpt.Some;
-      loansStorage.insert(loan.id, loan);
       persistedPayments.insert(ic.caller(), updatedReservePayment);
       return Ok(updatedReservePayment);
     }
@@ -694,7 +689,7 @@ export default Canister({
 
       loansStorage.insert(loan.id, loan);
 
-      pendingPayments.insert(reserveRePayment.memo, reserveRePayment);
+      pendingRepayments.insert(reserveRePayment.memo, reserveRePayment);
       discardByTimeout(reserveRePayment.memo, PAYMENT_RESERVATION_PERIOD);
       return Ok(reserveRePayment);
     }
@@ -727,12 +722,6 @@ export default Canister({
         status: "completed",
         paid_at_block: Some(block),
       };
-      const loanOpt = loansStorage.get(loanId);
-      if ("None" in loanOpt) {
-        throw Error(`Book with id=${loanId} not found`);
-      }
-      const loan = loanOpt.Some;
-      loansStorage.insert(loan.id, loan);
       persistedRePayments.insert(ic.caller(), updatedReservePayment);
       return Ok(updatedReservePayment);
     }

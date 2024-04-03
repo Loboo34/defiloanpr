@@ -6,7 +6,7 @@ const SignBorrower = ({ fetchUser }) => {
   const [address, setAddress] = useState("");
   const [email, setEmail] = useState("");
   const [imageUrl, setImageUrl] = useState("");
-  
+
   const isFormFilled = () => name && address && email && imageUrl;
 
   const handleSubmit = async (e) => {
@@ -48,7 +48,7 @@ const SignBorrower = ({ fetchUser }) => {
                             setName(e.target.value);
                           }}
                         />
-                        <label className="form-label" for="form3Example1cg">
+                        <label className="form-label" htmlFor="form3Example1cg">
                           Your Name
                         </label>
                       </div>
@@ -62,7 +62,7 @@ const SignBorrower = ({ fetchUser }) => {
                             setEmail(e.target.value);
                           }}
                         />
-                        <label className="form-label" for="form3Example3cg">
+                        <label className="form-label" htmlFor="form3Example3cg">
                           Your Email
                         </label>
                       </div>
@@ -76,11 +76,11 @@ const SignBorrower = ({ fetchUser }) => {
                             setAddress(e.target.value);
                           }}
                         />
-                        <label className="form-label" for="form3Example4cg">
+                        <label className="form-label" htmlFor="form3Example4cg">
                           Address
                         </label>
                       </div>
-                     
+
                       <div className="form-outline mb-4">
                         <input
                           type="text"
@@ -90,7 +90,10 @@ const SignBorrower = ({ fetchUser }) => {
                             setImageUrl(e.target.value);
                           }}
                         />
-                        <label className="form-label" for="form3Example4cdg">
+                        <label
+                          className="form-label"
+                          htmlFor="form3Example4cdg"
+                        >
                           Image Url
                         </label>
                       </div>

@@ -6,21 +6,19 @@ import { Container } from "react-bootstrap";
 import "./App.css";
 
 import { Notification } from "./components/utils/Notifications";
-import LendersPage from "./pages/Lenders";
+import LendersPage from "./pages/Lender";
 
 const App = function AppWrapper() {
   return (
     <>
       <Notification />
-      <Container fluid="md">
-        <Router>
-          <Routes>
-            <Route exact path="/" element={<LoansPage />} />
-            <Route path="/borrowers" element={<BorrowersPage />} />
-            <Route path="/lenders" element={<LendersPage />} />
-          </Routes>
-        </Router>
-      </Container>
+      <Router>
+        <Routes>
+          <Route exact path="/" element={<LoansPage />} />
+          <Route path="/borrowers" element={<BorrowersPage />} />
+          <Route path="/lenders" element={<LendersPage />} />
+        </Routes>
+      </Router>
     </>
   );
 };

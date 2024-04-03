@@ -36,13 +36,13 @@ const Borrower = ({ borrower }) => {
           </Card.Text>
           <Card.Text className="flex-grow-1 ">
             Skills:{" "}
-            {skills.map((skill, index) => {
+            {/* {skills.map((skill, index) => {
               return (
                 <Badge key={index} bg="secondary" className="ms-auto">
                   {skill}
                 </Badge>
               );
-            })}
+            })} */}
           </Card.Text>
         </Card.Body>
       </Card>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { createLender } from "../../utils/lenderManager";
 
-const SignBorrower = ({ fetchUser }) => {
+const SignLender = ({ fetchUser }) => {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [email, setEmail] = useState("");
@@ -18,7 +18,7 @@ const SignBorrower = ({ fetchUser }) => {
     try {
       await createLender({
         lenderGroup,
-        interestRate,
+        interestRate: parseInt(interestRate, 10),
         name,
         address,
         email,
@@ -36,13 +36,21 @@ const SignBorrower = ({ fetchUser }) => {
     <div>
       <section
         className="vh-100 bg-image"
-        style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');"
+        style={{
+          backgroundImage:
+            "url(" +
+            "https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp" +
+            ")",
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+        }}
       >
         <div className="mask d-flex align-items-center h-100 gradient-custom-3">
           <div className="container h-100">
             <div className="row d-flex justify-content-center align-items-center h-100">
               <div className="col-12 col-md-9 col-lg-7 col-xl-6">
-                <div className="card" style="border-radius: 15px;">
+                <div className="card" style={{ borderRadius: "15px" }}>
                   <div className="card-body p-5">
                     <h2 className="text-uppercase text-center mb-5">
                       Create an account
@@ -58,7 +66,7 @@ const SignBorrower = ({ fetchUser }) => {
                             setName(e.target.value);
                           }}
                         />
-                        <label className="form-label" for="form3Example1cg">
+                        <label className="form-label" htmlFor="form3Example1cg">
                           Your Name
                         </label>
                       </div>
@@ -72,7 +80,7 @@ const SignBorrower = ({ fetchUser }) => {
                             setEmail(e.target.value);
                           }}
                         />
-                        <label className="form-label" for="form3Example3cg">
+                        <label className="form-label" htmlFor="form3Example3cg">
                           Your Email
                         </label>
                       </div>
@@ -86,7 +94,7 @@ const SignBorrower = ({ fetchUser }) => {
                             setAddress(e.target.value);
                           }}
                         />
-                        <label className="form-label" for="form3Example4cg">
+                        <label className="form-label" htmlFor="form3Example4cg">
                           Address
                         </label>
                       </div>
@@ -120,7 +128,10 @@ const SignBorrower = ({ fetchUser }) => {
                             setInterestRate(e.target.value);
                           }}
                         />
-                        <label className="form-label" for="form3Example4cdg">
+                        <label
+                          className="form-label"
+                          htmlFor="form3Example4cdg"
+                        >
                           Interest Rates / Month
                         </label>
                       </div>
@@ -134,7 +145,10 @@ const SignBorrower = ({ fetchUser }) => {
                             setImageUrl(e.target.value);
                           }}
                         />
-                        <label className="form-label" for="form3Example4cdg">
+                        <label
+                          className="form-label"
+                          htmlFor="form3Example4cdg"
+                        >
                           Image Url
                         </label>
                       </div>
@@ -165,4 +179,4 @@ const SignBorrower = ({ fetchUser }) => {
   );
 };
 
-export default SignBorrower;
+export default SignLender;

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Button, Modal, Form, FloatingLabel } from "react-bootstrap";
 
-const UpdateBorrower = ({ borrower, save }) => {
+const UpdateLender = ({ lender, save }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [creditScore, setCreditScore] = useState("");
@@ -26,13 +26,13 @@ const UpdateBorrower = ({ borrower, save }) => {
       </button>
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
-          <Modal.Title>New Borrower</Modal.Title>
+          <Modal.Title>New Lender</Modal.Title>
         </Modal.Header>
         <Form>
           <Modal.Body>
             <FloatingLabel
               controlId="inputName"
-              label="Borrower name"
+              label="Lender name"
               className="mb-3"
             >
               <Form.Control
@@ -40,7 +40,7 @@ const UpdateBorrower = ({ borrower, save }) => {
                 onChange={(e) => {
                   setName(e.target.value);
                 }}
-                placeholder="Enter name of borrower"
+                placeholder="Enter name of lender"
               />
             </FloatingLabel>
             <FloatingLabel
@@ -94,7 +94,7 @@ const UpdateBorrower = ({ borrower, save }) => {
             disabled={!isFormFilled()}
             onClick={() => {
               save({
-                id: borrower.id,
+                id: lender.id,
                 name,
                 creditScore,
                 email,
@@ -111,8 +111,8 @@ const UpdateBorrower = ({ borrower, save }) => {
   );
 };
 
-UpdateBorrower.propTypes = {
+UpdateLender.propTypes = {
   save: PropTypes.func.isRequired,
 };
 
-export default UpdateBorrower;
+export default UpdateLender;

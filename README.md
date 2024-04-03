@@ -1,68 +1,124 @@
-# Decentralized Lender
+# Loan Management System
 
-This canister implements a marketplace for freelance loans. Borrowers can list loans, lenders can request on those loans, and borrowers can select a lender to complete the work. Leveraging blockchain technology, a decentralized freelance marketplace can provide a more efficient, transparent, and inclusive environment for connecting borrowers with freelance talent while reducing reliance on intermediaries and improving trust and security in the freelance economy.
+This loan management system is a decentralized application (dApp) built on the Internet Computer platform. It allows borrowers to request loans backed by collateral and lenders to provide funds for these loans. The system ensures transparency, security, and fairness in loan transactions.
 
-## Data Structures
+## Table of Contents
 
-The canister uses several Azle data structures to store information:
+- [Loan Management System](#loan-management-system)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Features](#features)
+  - [Project Structure](#project-structure)
+  - [Key Functions](#key-functions)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+  - [Usage](#usage)
+  - [API Reference](#api-reference)
+  - [Contributing](#contributing)
+  - [License](#license)
+  - [Things to be explained in the course](#things-to-be-explained-in-the-course)
+  - [How to deploy canisters implemented in the course](#how-to-deploy-canisters-implemented-in-the-course)
+    - [Ledger canister](#ledger-canister)
+    - [Internet identity canister](#internet-identity-canister)
+    - [eventManager canister](#eventmanager-canister)
+    - [eventManager frontend canister](#eventmanager-frontend-canister)
 
-* `StableBTreeMap`: This is a self-balancing tree used to store loans by borrower ID, borrower information, requests, and borrower information.
-* `Vec`: This is a vector data structure used to store lists of loan IDs, borrower IDs, and request IDs within the corresponding data structures.
-* `Option`: This is used to represent optional values, which can be either `Some(value)` or `None`.
+## Overview
 
-## Canister Functions
+The Loan Management System aims to facilitate peer-to-peer lending by connecting borrowers and lenders in a decentralized manner. It leverages smart contracts on the Internet Computer to enable secure and transparent loan transactions without the need for intermediaries.
 
-The canister provides a variety of functions for managing loans, borrowers, requests, and payments:
+## Features
 
-## Loans
+- Borrowers can request loans by providing collateral.
+- Lenders can fund loans and earn interest on their investments.
+- Smart contracts ensure trustless and transparent loan agreements.
+- Borrower and lender profiles for tracking transaction history.
+- Integration with the Internet Computer Ledger for secure payments and settlements.
 
-* `addLoan`: Adds a new loan for the current borrower.
-* `getLoans`: Retrieves all loans listed on the marketplace.
-* `getLoan`: Retrieves a specific loan by its ID.
-* `updateLoan`: Updates an existing loan.
-* `loanstatus`: Updates the status of a loan.
+## Project Structure
 
-## Requests
+The project follows a structured organization to maintain modularity and clarity:
 
-* `addRequest`: Allows a borrower to submit a request on a loan.
-* `getRequests`: Retrieves all requests on the marketplace.
-* `getLoanRequests`: Retrieves all requests for a specific loan.
-* `getRequest`: Retrieves a specific request by its ID.
-* `selectRequest`: Assigns a selected request to a loan, marking it complete.
+- **`canisters/`**: Contains the smart contract canisters written in Motoko.
+- **`src/`**: Frontend source code for the user interface.
+- **`scripts/`**: Scripts for deployment, testing, and other utilities.
+- **`tests/`**: Test suites for ensuring code correctness and reliability.
+- **`docs/`**: Documentation files, including README, API reference, and contributing guidelines.
 
-## Borrowers
+## Key Functions
 
-* `addBorrower`: Adds a new borrower to the marketplace.
-* `getBorrowers`: Retrieves all borrowers registered on the marketplace.
-* `getBorrower`: Retrieves a specific borrower by their ID.
-* `getBorrowerByBorrower`: Retrieves the borrower information for the currently logged-in borrower.
-* `getBorrowerLoans`: Retrieves all loans associated with a specific borrower.
-* `updateBorrower`: Updates an existing borrower's information.
+The Loan Management System provides several essential functions to manage loan transactions:
 
-## Borrowers
+- **`addLoan(payload: LoanPayload): Result<Loan, ErrorType>`**: Allows borrowers to add a new loan request, specifying details such as title, description, collateral, and loan amount.
+  
+- **`getLoans(): Vec<Loan>`**: Retrieves a list of all active loans available in the system.
+  
+- **`addRequest(loanId: text, description: text, amount: nat64): Result<Request, ErrorType>`**: Enables borrowers to submit a loan request for a specific loan ID, including the desired loan amount and description.
+  
+- **`getRequests(): Vec<Request>`**: Fetches all loan requests submitted by borrowers.
+  
+- **`selectRequest(requestId: text): Result<Loan, ErrorType>`**: Allows lenders to select a loan request by ID, providing funds and marking the loan as assigned.
+  
+- **`createPaymentPay(loanId: text): Result<ReservePayment, ErrorType>`**: Initiates the payment process for a loan, creating a payment reservation for the borrower to fulfill.
+  
+- **`completePayment(reservor: Principal, loanId: text, reservePrice: nat64, block: nat64, memo: nat64): Result<ReservePayment, ErrorType>`**: Verifies and completes the payment reservation initiated by the borrower, updating the payment status accordingly.
+  
+- **`createRePayment(loanId: text, amount: nat64): Result<ReserveRePayment, ErrorType>`**: Facilitates the repayment process for borrowers, creating a repayment reservation for the specified loan and amount.
+  
+- **`completeRePayment(reservor: Principal, loanId: text, reservePrice: nat64, block: nat64, memo: nat64): Result<ReserveRePayment, ErrorType>`**: Verifies and completes the repayment reservation initiated by the borrower, updating the repayment status accordingly.
 
-* `getBorrower`: Retrieves the borrower information for the currently logged-in borrower.
+## Getting Started
 
-## Following Borrowers
+### Prerequisites
 
-* `getFollowingBorrowers`: Retrieves a list of borrowers that the current borrower is following.
-* `getActiveLoans`: Retrieves a list of loans from borrowers that the current borrower is following.
+To run the Loan Management System locally, you need:
 
-## Payments
+- [Node.js](https://nodejs.org/) installed on your machine.
+- An Internet Computer development environment set up (e.g., using DFX).
 
-* `createPaymentPay`: Reserves a loan by paying for it.
-* `completePayment`: Completes a payment by verifying payment.
-* `verifyPayment`: Verifies a payment payment.
+### Installation
 
-## Helper Functions
+1. Clone the repository:
 
-* `getAddressFromPrincipal`: Retrieves the address associated with a principal.
+   ```bash
+   git clone https://github.com/yourusername/loan-management-system.git
+   ```
 
-## Additional Notes
+2. Install dependencies:
 
-* The code utilizes the `ic` object to interact with the Dfinity network, including calling other canisters and managing timers.
-* The code implements a mechanism to discard pending payments after a certain timeout period.
-* The `uuid` package is used to generate unique IDs for loans, borrowers, and requests.
+   ```bash
+   cd loan-management-system
+   npm install
+   ```
+
+## Usage
+
+1. Start the local development environment:
+
+   ```bash
+   dfx start
+   ```
+
+2. Deploy the canister smart contracts:
+
+   ```bash
+   dfx deploy
+   ```
+
+3. Interact with the dApp using the provided API or user interface.
+
+## API Reference
+
+The Loan Management System provides a set of API endpoints for interacting with the smart contracts. Refer to the [API documentation](./API.md) for detailed usage instructions.
+
+## Contributing
+
+Contributions are welcome! Please read the [Contributing Guide](./CONTRIBUTING.md) for guidelines on how to contribute to this project.
+
+## License
+
+This project is licensed under the [MIT License](./LICENSE).
 
 ## Things to be explained in the course
 
@@ -108,10 +164,10 @@ Transfer ICP:
 `dfx ledger transfer <ADDRESS>  --memo 0 --icp 100 --fee 0`
 where:
 
-* `--memo` is some correlation id that can be set to identify some particular transactions (we use that in the eventManager canister).
-* `--icp` is the transfer amount
-* `--fee` is the transaction fee. In this case it's 0 because we make this transfer as the minter idenity thus this transaction is of type MINT, not TRANSFER.
-* `<ADDRESS>` is the address of the recipient. To get the address from the principal, you can get it directly from the wallet icon top right or use the helper function from the eventManager canister - `getAddressFromPrincipal(principal: Principal)`, it can be called via the Candid UI.
+- `--memo` is some correlation id that can be set to identify some particular transactions (we use that in the eventManager canister).
+- `--icp` is the transfer amount
+- `--fee` is the transaction fee. In this case it's 0 because we make this transfer as the minter idenity thus this transaction is of type MINT, not TRANSFER.
+- `<ADDRESS>` is the address of the recipient. To get the address from the principal, you can get it directly from the wallet icon top right or use the helper function from the eventManager canister - `getAddressFromPrincipal(principal: Principal)`, it can be called via the Candid UI.
 
 ### Internet identity canister
 
