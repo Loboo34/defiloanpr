@@ -38,45 +38,15 @@ import { v4 as uuidv4 } from "uuid";
 const Collateral = Record({
   id: text,
   owner: Principal,
-  type: text,
+  assetType: text,
   value: nat64,
   status: text,
 });
 
-const Loan = Record({
-  id: text,
-  title: text,
-  description: text,
-  category: text,
+const CollateralPayload = Record({
+  assetType: text,
+  value: nat64,
   status: text,
-  borrower: Principal,
-  lender: Opt(text),
-  amount: nat64,
-  rePaid: nat64,
-  terms: text,
-  collateral: Collateral,
-  interestRate: text,
-  dueDate: text,
-  createdDate: text,
-  updatedAt: Opt(text),
-});
-
-// Payload structure for creating an loan
-const LoanPayload = Record({
-  title: text,
-  description: text,
-  category: text,
-  collateralId: text,
-  interestRate: text,
-  amount: nat64,
-  terms: text,
-  dueDate: text,
-});
-
-// Payload structure for updating an loan
-const UpdateLoanPayload = Record({
-  id: text,
-  description: text,
 });
 
 // Structure representing a borrower
@@ -92,11 +62,45 @@ const Borrower = Record({
   collaterals: Vec(text),
 });
 
+const Loan = Record({
+  id: text,
+  title: text,
+  description: text,
+  category: text,
+  status: text,
+  borrower: Borrower,
+  lender: Opt(text),
+  amount: nat64,
+  rePaid: nat64,
+  terms: Opt(text),
+  collateral: Collateral,
+  interestRate: Opt(text),
+  duration: text,
+  dueDate: Opt(text),
+  createdDate: text,
+  updatedAt: Opt(text),
+});
+
+// Payload structure for creating an loan
+const LoanPayload = Record({
+  title: text,
+  description: text,
+  category: text,
+  collateralId: text,
+  amount: nat64,
+  duration: text,
+});
+
+// Payload structure for updating an loan
+const UpdateLoanPayload = Record({
+  id: text,
+  description: text,
+});
+
 // Payload structure for creating a borrower
 const BorrowerPayload = Record({
   name: text,
   email: text,
-  creditScore: nat64,
   address: text,
   imageUrl: text,
 });
@@ -116,7 +120,8 @@ const Lender = Record({
   principal: Principal,
   name: text,
   email: text,
-  lenderGroup: nat64,
+  interestRate: nat64,
+  lenderGroup: text,
   address: text,
   imageUrl: text,
   loans: Vec(text),
@@ -125,7 +130,8 @@ const Lender = Record({
 const LenderPayload = Record({
   name: text,
   email: text,
-  lenderGroup: nat64,
+  interestRate: nat64,
+  lenderGroup: text,
   address: text,
   imageUrl: text,
 });
@@ -224,29 +230,31 @@ export default Canister({
       return Err({ InvalidPayload: "invalid payload" });
     }
 
+    // get borrower with the same principal
+    const borrowerOpt = borrowersStorage.values().filter((borrower) => {
+      return borrower.principal.toText() === ic.caller().toText();
+    });
+
+    const borrower = borrowerOpt[0];
+
     const collateralOpt = collateralStorage.get(payload.collateralId);
     const collateral = collateralOpt.Some;
     // Create an loan with a unique id generated using UUID v4
     const loan = {
       id: uuidv4(),
       status: "pending",
-      borrower: ic.caller(),
+      borrower: borrower,
       createdDate: new Date().toISOString(),
       rePaid: 0n,
       lender: None,
       collateral,
       updatedAt: None,
+      dueDate: None,
+      terms: None,
+      interestRate: None,
       ...payload,
     };
 
-    // add loan to the borrower
-    // get borrower with the same principal
-    const borrowerOpt = borrowersStorage.values().filter((borrower) => {
-      return borrower.principal.toText() === ic.caller().toText();
-    });
-
-    // add loan to the borrower
-    const borrower = borrowerOpt[0];
     const updatedBorrower = {
       ...borrower,
       loans: [...borrower.loans, loan.id],
@@ -383,6 +391,7 @@ export default Canister({
         id: uuidv4(),
         principal: ic.caller(),
         loans: [],
+        creditScore: 100n,
         collaterals: [],
         ...payload,
       };
@@ -432,6 +441,39 @@ export default Canister({
       return borrower.loans.includes(loan.id);
     });
   }),
+
+  // add collateral
+  addCollateral: update(
+    [CollateralPayload],
+    Result(Collateral, ErrorType),
+    (payload) => {
+      const borrower = borrowersStorage.values().filter((borrower) => {
+        return borrower.principal.toText() === ic.caller().toText();
+      })[0];
+      // Check if the payload is a valid object
+      if (typeof payload !== "object" || Object.keys(payload).length === 0) {
+        return Err({ NotFound: "invalid payload" });
+      }
+      // Create a collateral with a unique id generated using UUID v4
+      const collateral = {
+        id: uuidv4(),
+        owner: ic.caller(),
+        ...payload,
+      };
+
+      // add collateral to the borrower
+      const updatedBorrower = {
+        ...borrower,
+        collaterals: [...borrower.collaterals, collateral.id],
+      };
+
+      borrowersStorage.insert(borrower.id, updatedBorrower);
+
+      // Insert the collateral into the collateralStorage
+      collateralStorage.insert(collateral.id, collateral);
+      return Ok(collateral);
+    }
+  ),
 
   // Function to update a borrower
   updateBorrower: update(

@@ -1,6 +1,6 @@
 import React from "react";
 import { login } from "../utils/auth";
-import Borrowers from "../components/borrowerManager/Borrowers";
+import Borrowers from "../components/userManager/Borrowers";
 import Cover from "../components/utils/Cover";
 import coverImg from "../assets/img/cover.jpg";
 import { Notification } from "../components/utils/Notifications";

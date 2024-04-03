@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Button, Modal, Form, FloatingLabel } from "react-bootstrap";
 
-const AddLoan = ({ save }) => {
-  const [title, setTitle] = useState("");
-  const [dueDate, setdueDate] = useState("");
-  const [description, setDescription] = useState("");
-  const [terms, setTerms] = useState("");
-  const [category, setCategory] = useState("");
-  const isFormFilled = () =>
-    title && dueDate && terms && category && description;
+const UpdateBorrower = ({ borrower, save }) => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [creditScore, setCreditScore] = useState("");
+  const [address, setAddress] = useState("");
+
+  const isFormFilled = () => name && address && creditScore && email;
 
   const [show, setShow] = useState(false);
 
@@ -18,78 +17,70 @@ const AddLoan = ({ save }) => {
 
   return (
     <>
-      <Button
+      <button
         onClick={handleShow}
-        className="btn btn-outline-success text-white"
+        className="btn btn-outline-warning rounded-pill"
+        style={{ width: "11rem" }}
       >
-        <i className="bi bi-plus"></i> Add Loan
-      </Button>
+        <i className="bi bi-pencil-square "></i> Update Profile
+      </button>
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
-          <Modal.Title>New Loan</Modal.Title>
+          <Modal.Title>New Borrower</Modal.Title>
         </Modal.Header>
         <Form>
           <Modal.Body>
             <FloatingLabel
-              controlId="inputTitle"
-              label="Loan title"
+              controlId="inputName"
+              label="Borrower name"
               className="mb-3"
             >
               <Form.Control
                 type="text"
                 onChange={(e) => {
-                  setTitle(e.target.value);
+                  setName(e.target.value);
                 }}
-                placeholder="Enter title of loan"
+                placeholder="Enter name of borrower"
               />
             </FloatingLabel>
             <FloatingLabel
-              controlId="inputCategory"
-              label="category"
+              controlId="inputCreditScore"
+              label="CreditScore"
+              className="mb-3"
+            >
+              <Form.Control
+                type="number"
+                placeholder="CreditScore"
+                onChange={(e) => {
+                  setCreditScore(e.target.value);
+                }}
+              />
+            </FloatingLabel>
+            <FloatingLabel
+              controlId="inputEmail"
+              label="Email"
               className="mb-3"
             >
               <Form.Control
                 type="text"
-                placeholder="category"
+                placeholder="email"
                 onChange={(e) => {
-                  setCategory(e.target.value);
+                  setEmail(e.target.value);
                 }}
               />
             </FloatingLabel>
             <FloatingLabel
-              controlId="inputdueDate"
-              label="dueDate"
-              className="mb-3"
-            >
-              <Form.Control
-                type="date"
-                onChange={(e) => {
-                  setdueDate(e.target.value);
-                }}
-                placeholder="Enter dueDate url"
-              />
-            </FloatingLabel>
-            <FloatingLabel controlId="terms" label="Terms" className="mb-3">
-              <Form.Control
-                type="text"
-                onChange={(e) => {
-                  setTerms(e.target.value);
-                }}
-                placeholder="Enter dueDate url"
-              />
-            </FloatingLabel>
-            <FloatingLabel
-              controlId="inputDescription"
-              label="Description"
+              controlId="inputAddress"
+              label="Address"
               className="mb-3"
             >
               <Form.Control
                 as="textarea"
-                placeholder="description"
                 style={{ height: "80px" }}
                 onChange={(e) => {
-                  setDescription(e.target.value);
+                  setAddress(e.target.value);
                 }}
+                placeholder="Address"
               />
             </FloatingLabel>
           </Modal.Body>
@@ -103,16 +94,16 @@ const AddLoan = ({ save }) => {
             disabled={!isFormFilled()}
             onClick={() => {
               save({
-                title,
-                dueDate,
-                description,
-                terms,
-                category,
+                id: borrower.id,
+                name,
+                creditScore,
+                email,
+                address,
               });
               handleClose();
             }}
           >
-            Save loan
+            Save Updates
           </Button>
         </Modal.Footer>
       </Modal>
@@ -120,8 +111,8 @@ const AddLoan = ({ save }) => {
   );
 };
 
-AddLoan.propTypes = {
+UpdateBorrower.propTypes = {
   save: PropTypes.func.isRequired,
 };
 
-export default AddLoan;
+export default UpdateBorrower;

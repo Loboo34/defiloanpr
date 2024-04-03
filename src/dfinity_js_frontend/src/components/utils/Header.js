@@ -4,7 +4,7 @@ import { logout as destroy } from "../../utils/auth";
 import { balance as principalBalance } from "../../utils/ledger";
 import Wallet from "../Wallet";
 import AddLoan from "../loanManager/AddLoan";
-import AddBorrower from "../borrowerManager/AddBorrower";
+import AddBorrower from "../userManager/AddBorrower";
 import { Link } from "react-router-dom";
 
 const Header = ({ saveLoan, saveBorrower }) => {

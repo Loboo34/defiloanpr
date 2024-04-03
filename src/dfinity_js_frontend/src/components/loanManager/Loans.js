@@ -19,7 +19,7 @@ import {
   createBorrower,
   getBorrowerByOwner,
 } from "../../utils/borrowerManager";
-import AddBorrower from "../borrowerManager/AddBorrower";
+import AddBorrower from "../userManager/AddBorrower";
 
 const Loans = () => {
   const [loans, setLoans] = useState([]);
