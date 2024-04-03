@@ -1,5 +1,6 @@
 import React from "react";
 import { Dropdown, Stack } from "react-bootstrap";
+import img_rectangle from "../assets/images";
 
 const Wallet = ({
   principal,
@@ -20,6 +21,11 @@ const Wallet = ({
             className="d-flex align-items-center border rounded-pill py-1"
           >
             {balance} <span className="ms-1"> {symbol}</span>
+            <Img
+              src={img_rectangle}
+              alt="circleimage"
+              className="h-[36px] w-[36px] rounded-[50%]"
+            />
           </Dropdown.Toggle>
 
           <Dropdown.Menu className="shadow-lg border-0">

@@ -11,21 +11,11 @@ export default function LenderPage() {
       <div className="flex w-full flex-col items-center bg-white-A700_01 pt-6 shadow-xs sm:pt-5">
         <header className="flex w-[82%] items-center justify-between gap-5 rounded-[42px] bg-white-A700_01 p-[19px] shadow-md md:w-full">
           <div className="ml-4 flex w-[15%] justify-center self-end md:ml-0">
-            <div className="relative h-[39px] flex-1 self-end">
-              <div className="absolute left-0 right-0 top-[0.34px] m-auto flex h-[32px] w-full items-center justify-end bg-[url(/public/Images.img_group_3)] bg-cover bg-no-repeat md:h-auto">
-                <div className="h-[25px] w-[19px] self-start bg-white-A700_01" />
-              </div>
-              <Heading
-                size="2xl"
-                as="h2"
-                className="absolute bottom-0 right-[3.00px] top-0 my-auto h-max"
-              >
-                n
-              </Heading>
-            </div>
-            <Heading size="2xl" as="h2" className="self-start">
-              Hub
-            </Heading>
+            <Img
+              src={Images.logo}
+              alt="logo"
+              className={"h-[36px] w-[120px]"}
+            />
           </div>
           <div className="mr-[29px] flex w-[16%] items-center justify-center gap-[13px] md:mr-0">
             <Img

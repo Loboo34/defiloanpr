@@ -34,12 +34,14 @@ import img_image_116 from "./img_image_116.png";
 import img_image_87 from "./img_image_87.png";
 import img_payment_1 from "./img_payment_1.svg";
 import img_image_102 from "./img_image_102.png";
+import logo from "./logo.png";
 import { CloseSVG } from "./close.jsx";
 import { SearchSVG } from "./search";
 
 export {
   CloseSVG,
   SearchSVG,
+  logo,
   img_arrowdown,
   img_image_121,
   img_image_96,
